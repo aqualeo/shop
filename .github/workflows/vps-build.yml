@@ -1,0 +1,25 @@
+name: VPS Docker build
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  docker-build:
+    name: Build production image
+    runs-on: self-hosted
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Build image
+        run: docker build --pull -t shop-ci:${{ github.sha }} .
+
+      - name: Remove image
+        if: always()
+        run: docker image rm shop-ci:${{ github.sha }} || true
