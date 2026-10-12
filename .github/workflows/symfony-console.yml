@@ -1,6 +1,16 @@
 name: Symfony Console
 on:
   pull_request:
+    paths:
+      - '**.php'
+      - '**.yml'
+      - '**.yaml'
+      - '**.xml'
+      - 'composer.json'
+      - 'composer.lock'
+      - '.docker/**'
+      - '.github/actions/**'
+      - '.github/workflows/symfony-console.yml'
 
 permissions:
   contents: read

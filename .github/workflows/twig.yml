@@ -1,6 +1,11 @@
 name: Twig
 on:
   pull_request:
+    paths:
+      - '**.twig'
+      - 'composer.json'
+      - 'composer.lock'
+      - '.github/workflows/twig.yml'
 
 permissions:
   contents: read

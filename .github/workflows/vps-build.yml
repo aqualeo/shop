@@ -2,6 +2,12 @@ name: VPS Docker build
 on:
   push:
     branches: [ develop ]
+  pull_request:
+    paths:
+      - 'Dockerfile'
+      - '.dockerignore'
+      - '.railway/**'
+      - '.github/workflows/vps-build.yml'
   workflow_dispatch:
 
 permissions:
