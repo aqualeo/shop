@@ -27,6 +27,7 @@ COPY .railway/apache-proxy.conf /etc/apache2/conf-available/railway-proxy.conf
 RUN rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.* \
   && a2enmod mpm_prefork \
   && test "$(ls /etc/apache2/mods-enabled/mpm_*.load | wc -l)" = 1 \
+  && a2enmod remoteip \
   && a2enconf railway-proxy \
   && sed -i "s/define('_PS_MODE_DEV_', true);/define('_PS_MODE_DEV_', false);/" config/defines.inc.php
 

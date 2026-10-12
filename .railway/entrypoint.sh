@@ -55,10 +55,19 @@ fi
 
 ln -sf "$DATA/parameters.php" "$APP/app/config/parameters.php"
 rm -rf "$APP/install-dev"
+
+# Serve the back office from a renamed folder (default /admin) instead of the installer's /admin-dev.
+ADMIN_DIR="${PS_FOLDER_ADMIN:-admin}"
+if [ -d "$APP/admin-dev" ] && [ "$ADMIN_DIR" != "admin-dev" ]; then
+  mv "$APP/admin-dev" "$APP/$ADMIN_DIR"
+fi
+echo "* Back office: /${ADMIN_DIR}/"
 chown -R www-data:www-data "$DATA" "$APP/var"
 
 # The runtime container still lists mpm_event even though the build removed it; mod_php needs prefork only.
 rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.*
+a2enmod remoteip >/dev/null
+a2enconf railway-proxy >/dev/null
 
 if ! apache2ctl -t 2>/tmp/apache-test.log; then
   echo "* Apache configuration test failed:"

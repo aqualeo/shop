@@ -8,9 +8,37 @@ concurrency:
   group: ${{ github.event_name }}-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 jobs:
+  changes:
+    name: Detect changed areas
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      scss: ${{ steps.filter.outputs.scss }}
+      js: ${{ steps.filter.outputs.js }}
+      yaml: ${{ steps.filter.outputs.yaml }}
+      php: ${{ steps.filter.outputs.php }}
+      workflow: ${{ steps.filter.outputs.workflow }}
+    steps:
+      - name: Filter changed files
+        id: filter
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --paginate "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files" --jq '.[].filename' > files.txt
+          flag() { if grep -Eq "$2" files.txt; then echo "$1=true" >> "$GITHUB_OUTPUT"; else echo "$1=false" >> "$GITHUB_OUTPUT"; fi; }
+          flag scss '^admin-dev/themes/.*\.scss$|^admin-dev/themes/.*/package(-lock)?\.json$|^themes/.*\.scss$'
+          flag js '^admin-dev/themes/(default|new-theme)/'
+          flag yaml '^(app|src|\.github)/.*\.ya?ml$|^\.t9n\.yml$'
+          flag php '\.php$|\.twig$|\.tpl$|\.ya?ml$|^composer\.(json|lock)$|^\.header-stamp'
+          flag workflow '^\.github/(workflows/lint\.yml|actions/)'
+
   stylelint:
     name: SCSS Lint
-    runs-on: self-hosted
+    needs: changes
+    if: needs.changes.outputs.scss == 'true' || needs.changes.outputs.workflow == 'true'
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
 
@@ -27,7 +55,9 @@ jobs:
 
   eslint:
     name: ESLint
-    runs-on: self-hosted
+    needs: changes
+    if: needs.changes.outputs.js == 'true' || needs.changes.outputs.workflow == 'true'
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
 
@@ -50,7 +80,9 @@ jobs:
 
   yamllint_sf:
     name: YAML Lint (Symfony Check)
-    runs-on: self-hosted
+    needs: changes
+    if: needs.changes.outputs.yaml == 'true' || needs.changes.outputs.workflow == 'true'
+    runs-on: ubuntu-latest
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -86,7 +118,9 @@ jobs:
 
   yamllint:
     name: YAML Lint (YamlLint Check)
-    runs-on: self-hosted
+    needs: changes
+    if: needs.changes.outputs.yaml == 'true' || needs.changes.outputs.workflow == 'true'
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-python@v5
         with:
@@ -110,7 +144,9 @@ jobs:
 
   legacy_link_lint:
     name: Legacy Link Lint
-    runs-on: self-hosted
+    needs: changes
+    if: needs.changes.outputs.php == 'true' || needs.changes.outputs.workflow == 'true'
+    runs-on: ubuntu-latest
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -140,7 +176,9 @@ jobs:
 
   security_attribute_lint:
     name: Admin Security Attribute Linter
-    runs-on: self-hosted
+    needs: changes
+    if: needs.changes.outputs.php == 'true' || needs.changes.outputs.workflow == 'true'
+    runs-on: ubuntu-latest
     steps:
       - name: Prepare docker prefix with repository name lower cased
         run: |
@@ -174,7 +212,9 @@ jobs:
 
   header-stamp:
     name: Check license headers
-    runs-on: self-hosted
+    needs: changes
+    if: needs.changes.outputs.php == 'true' || needs.changes.outputs.workflow == 'true'
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
 

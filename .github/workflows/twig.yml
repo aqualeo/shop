@@ -1,6 +1,11 @@
 name: Twig
 on:
   pull_request:
+    paths:
+      - '**.twig'
+      - 'composer.json'
+      - 'composer.lock'
+      - '.github/workflows/twig.yml'
 
 permissions:
   contents: read
@@ -11,7 +16,7 @@ concurrency:
 jobs:
   twig-cs-check:
     name: Twig CS Check
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Setup PHP
