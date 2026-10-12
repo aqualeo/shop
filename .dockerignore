@@ -1,0 +1,9 @@
+.git
+.github
+.docker
+**/node_modules
+tests
+var/cache/*
+var/logs/*
+app/config/parameters.php
+docker-compose*.yml
