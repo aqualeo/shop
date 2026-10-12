@@ -4,9 +4,12 @@ ARG NODE_VERSION="20.19.5"
 
 FROM prestashop/base:${PHP_VERSION} AS php-deps
 WORKDIR /var/www/html
+# Without this Composer disables plugins as root, so composer/installers never places themes and modules.
+ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 COPY . .
-RUN COMPOSER_PROCESS_TIMEOUT=600 composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction --no-progress
+RUN COMPOSER_PROCESS_TIMEOUT=600 composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction --no-progress \
+  && test -d themes/hummingbird && test -d themes/classic/_dev
 
 FROM node:${NODE_VERSION}-bookworm AS assets
 WORKDIR /var/www/html
