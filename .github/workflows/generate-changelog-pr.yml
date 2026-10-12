@@ -43,7 +43,7 @@ permissions:
 jobs:
   release-changelog:
     name: Prepare changelog and create PR
-    runs-on: ubuntu-latest
+    runs-on: contabo
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5

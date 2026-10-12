@@ -10,7 +10,7 @@ on:
 jobs:
   add_comment:
     name: Add comment
-    runs-on: ubuntu-latest
+    runs-on: contabo
     steps:
       - id: download_artifact
         name: Download artifact

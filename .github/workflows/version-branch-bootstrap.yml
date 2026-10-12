@@ -32,7 +32,7 @@ jobs:
   # 1) Gate: only members of the prestashop-sa team may run this.
   check-membership:
     name: Check team membership
-    runs-on: ubuntu-latest
+    runs-on: contabo
     steps:
       - name: Verify actor belongs to prestashop-sa
         uses: PrestaShop/.github/.github/actions/team-guard@master
@@ -44,7 +44,7 @@ jobs:
   # 2) Derive version_branch / new_version / release_type from Version.php on develop.
   derive:
     name: Derive version branch
-    runs-on: ubuntu-latest
+    runs-on: contabo
     needs: check-membership
     outputs:
       version_branch: ${{ steps.d.outputs.version_branch }}
@@ -97,7 +97,7 @@ jobs:
   # 3) Create the version branch on core (idempotent) before the per-repo PRs.
   create-version-branch:
     name: Create ${{ needs.derive.outputs.version_branch }} on core
-    runs-on: ubuntu-latest
+    runs-on: contabo
     needs: derive
     steps:
       # github.repository is already the repo the workflow runs in: a fork when
@@ -137,7 +137,7 @@ jobs:
   bootstrap-repo:
     name: Bootstrap ${{ matrix.transform_id }}
     needs: [ derive, create-version-branch ]
-    runs-on: ubuntu-latest
+    runs-on: contabo
     strategy:
       fail-fast: false
       matrix:
@@ -196,7 +196,7 @@ jobs:
   # 5) Consolidated report: one table of every PR for the maintainers to review.
   report:
     name: PR report
-    runs-on: ubuntu-latest
+    runs-on: contabo
     needs: [ derive, bootstrap-repo ]
     if: always()
     steps:
