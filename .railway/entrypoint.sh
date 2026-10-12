@@ -66,6 +66,8 @@ chown -R www-data:www-data "$DATA" "$APP/var"
 
 # The runtime container still lists mpm_event even though the build removed it; mod_php needs prefork only.
 rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.*
+a2enmod remoteip >/dev/null
+a2enconf railway-proxy >/dev/null
 
 if ! apache2ctl -t 2>/tmp/apache-test.log; then
   echo "* Apache configuration test failed:"
