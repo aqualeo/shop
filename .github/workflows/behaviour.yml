@@ -20,7 +20,7 @@ jobs:
     permissions:
       contents: read   #   to clone the repos and get release assets (shivammathur/setup-php)
     name: Behaviour tests
-    runs-on: contabo
+    runs-on: ubuntu-latest
     needs: workflow_matrix_generator
     strategy:
       matrix:

@@ -9,7 +9,7 @@ concurrency:
 jobs:
   message-check:
     name: Block Merge Commits
-    runs-on: contabo
+    runs-on: ubuntu-latest
     steps:
       - name: Check is merge PR
         id: check-is-merge

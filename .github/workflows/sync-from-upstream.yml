@@ -49,7 +49,7 @@ jobs:
   #    where the repository owner is not the PrestaShop organization.
   check-membership:
     name: Check team membership
-    runs-on: contabo
+    runs-on: ubuntu-latest
     steps:
       - name: Verify actor belongs to prestashop-sa
         uses: PrestaShop/.github/.github/actions/team-guard@master
@@ -63,7 +63,7 @@ jobs:
   #    any ref in the target.
   sync:
     name: Sync branches and tags from upstream
-    runs-on: contabo
+    runs-on: ubuntu-latest
     needs: check-membership
     env:
       SOURCE_REPO: PrestaShop/PrestaShop

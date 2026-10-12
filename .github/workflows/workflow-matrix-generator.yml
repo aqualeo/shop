@@ -14,7 +14,7 @@ on:
 jobs:
   workflow_matrix_generator:
     name: Build workflow matrix
-    runs-on: contabo
+    runs-on: ubuntu-latest
     steps:
       # First detect if we want the whole matrix or the default minimalist ones
       # So far the cases when we want the whole matrix are:

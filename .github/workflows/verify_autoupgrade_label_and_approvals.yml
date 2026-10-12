@@ -5,7 +5,7 @@ on:
 
 jobs:
   check_label_and_appoval:
-    runs-on: contabo
+    runs-on: ubuntu-latest
     steps:
 
       - name: Check if comment already exist

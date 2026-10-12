@@ -50,7 +50,7 @@ jobs:
   # ---------------------------------------------------------------------------
   derive:
     name: Derive release context
-    runs-on: contabo
+    runs-on: ubuntu-latest
     outputs:
       core_version: ${{ steps.derive.outputs.core_version }}
       major: ${{ steps.derive.outputs.major }}
@@ -99,7 +99,7 @@ jobs:
   # ---------------------------------------------------------------------------
   static:
     name: Checks — static
-    runs-on: contabo
+    runs-on: ubuntu-latest
     needs: derive
     defaults:
       run:
@@ -147,7 +147,7 @@ jobs:
   # ---------------------------------------------------------------------------
   deps:
     name: Checks — dependencies
-    runs-on: contabo
+    runs-on: ubuntu-latest
     needs: derive
     defaults:
       run:
@@ -212,7 +212,7 @@ jobs:
   # ---------------------------------------------------------------------------
   app:
     name: Checks — app (booted)
-    runs-on: contabo
+    runs-on: ubuntu-latest
     needs: derive
     defaults:
       run:
@@ -298,7 +298,7 @@ jobs:
   # ---------------------------------------------------------------------------
   translation:
     name: Checks — translation catalogue
-    runs-on: contabo
+    runs-on: ubuntu-latest
     needs: derive
     defaults:
       run:
@@ -357,7 +357,7 @@ jobs:
   # ---------------------------------------------------------------------------
   gh:
     name: Checks — cross-repo / CI / post-release
-    runs-on: contabo
+    runs-on: ubuntu-latest
     needs: derive
     defaults:
       run:
@@ -407,7 +407,7 @@ jobs:
   # ---------------------------------------------------------------------------
   summary:
     name: Healthcheck summary
-    runs-on: contabo
+    runs-on: ubuntu-latest
     needs: [ derive, static, deps, app, translation, gh ]
     if: always()
     env:

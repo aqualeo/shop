@@ -13,7 +13,7 @@ permissions:
 jobs:
   build-release:
     name: Build Release
-    runs-on: contabo
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
         with:

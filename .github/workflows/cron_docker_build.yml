@@ -9,7 +9,7 @@ jobs:
   docker-build:
     name: Docker build
 
-    runs-on: contabo
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:

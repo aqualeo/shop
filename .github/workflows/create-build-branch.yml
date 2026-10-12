@@ -16,7 +16,7 @@ permissions:
 jobs:
   check-membership:
     name: Check team membership
-    runs-on: contabo
+    runs-on: ubuntu-latest
     steps:
       - name: Verify actor belongs to prestashop-sa
         uses: PrestaShop/.github/.github/actions/team-guard@master
@@ -27,7 +27,7 @@ jobs:
 
   create-build-branch:
     name: Create Build Branch
-    runs-on: contabo
+    runs-on: ubuntu-latest
     needs: check-membership
     steps:
       - name: Parse version and compute branch name

@@ -27,7 +27,7 @@ permissions:
 
 jobs:
   protect-localization-packs:
-    runs-on: contabo
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v5

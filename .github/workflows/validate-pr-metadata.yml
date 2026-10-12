@@ -8,7 +8,7 @@ concurrency:
 
 jobs:
   set-milestone:
-    runs-on: contabo
+    runs-on: ubuntu-latest
     permissions:
       issues: write
       pull-requests: write
@@ -112,7 +112,7 @@ jobs:
   convention-check:
     needs: set-milestone
     if: always()
-    runs-on: contabo
+    runs-on: ubuntu-latest
     steps:
       - name: Validate PR Metadata
         uses: PrestaShop/.github/.github/actions/validate-pr-metadata@master

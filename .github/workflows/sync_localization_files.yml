@@ -37,7 +37,7 @@ jobs:
   # Build the branch matrix from the "target" input (matrix can't be filtered
   # from a job-level `if`, so we compute it here).
   setup:
-    runs-on: contabo
+    runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.pick.outputs.matrix }}
     steps:
@@ -53,7 +53,7 @@ jobs:
 
   sync-localization-files:
     needs: setup
-    runs-on: contabo
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:

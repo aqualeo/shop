@@ -10,7 +10,7 @@ concurrency:
 jobs:
   stylelint:
     name: SCSS Lint
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
 
@@ -27,7 +27,7 @@ jobs:
 
   eslint:
     name: ESLint
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
 
@@ -50,7 +50,7 @@ jobs:
 
   yamllint_sf:
     name: YAML Lint (Symfony Check)
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -86,7 +86,7 @@ jobs:
 
   yamllint:
     name: YAML Lint (YamlLint Check)
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-python@v5
         with:
@@ -110,7 +110,7 @@ jobs:
 
   legacy_link_lint:
     name: Legacy Link Lint
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -140,7 +140,7 @@ jobs:
 
   security_attribute_lint:
     name: Admin Security Attribute Linter
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Prepare docker prefix with repository name lower cased
         run: |
@@ -174,7 +174,7 @@ jobs:
 
   header-stamp:
     name: Check license headers
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
 
