@@ -55,6 +55,13 @@ fi
 
 ln -sf "$DATA/parameters.php" "$APP/app/config/parameters.php"
 rm -rf "$APP/install-dev"
+
+# Serve the back office from a renamed folder (default /admin) instead of the installer's /admin-dev.
+ADMIN_DIR="${PS_FOLDER_ADMIN:-admin}"
+if [ -d "$APP/admin-dev" ] && [ "$ADMIN_DIR" != "admin-dev" ]; then
+  mv "$APP/admin-dev" "$APP/$ADMIN_DIR"
+fi
+echo "* Back office: /${ADMIN_DIR}/"
 chown -R www-data:www-data "$DATA" "$APP/var"
 
 # The runtime container still lists mpm_event even though the build removed it; mod_php needs prefork only.
