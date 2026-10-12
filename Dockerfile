@@ -24,8 +24,9 @@ COPY --from=assets --chown=www-data:www-data /var/www/html .
 COPY --chmod=755 .railway/entrypoint.sh /usr/local/bin/railway-entrypoint
 COPY .railway/apache-proxy.conf /etc/apache2/conf-available/railway-proxy.conf
 # mod_php needs prefork; the image can end up with another MPM enabled as well ("More than one MPM loaded").
-RUN a2dismod -f mpm_event mpm_worker || true \
+RUN rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.* \
   && a2enmod mpm_prefork \
+  && test "$(ls /etc/apache2/mods-enabled/mpm_*.load | wc -l)" = 1 \
   && a2enconf railway-proxy \
   && sed -i "s/define('_PS_MODE_DEV_', true);/define('_PS_MODE_DEV_', false);/" config/defines.inc.php
 
