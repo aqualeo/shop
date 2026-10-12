@@ -11,7 +11,10 @@ DB_USER="${DB_USER:-${MYSQLUSER:-root}}"
 DB_PASSWD="${DB_PASSWD:-${MYSQLPASSWORD:-}}"
 DB_NAME="${DB_NAME:-${MYSQLDATABASE:-railway}}"
 DB_PREFIX="${DB_PREFIX:-ps_}"
-PS_DOMAIN="${PS_DOMAIN:-${RAILWAY_PUBLIC_DOMAIN:?PS_DOMAIN or RAILWAY_PUBLIC_DOMAIN is required}}"
+# prestashop/base ships PS_DOMAIN="<to be defined>"; treat that placeholder as unset.
+case "${PS_DOMAIN:-}" in
+  ""|*"<"*) PS_DOMAIN="${RAILWAY_PUBLIC_DOMAIN:?Set PS_DOMAIN or generate a Railway domain}" ;;
+esac
 PS_DOMAIN=$(printf '%s' "$PS_DOMAIN" | tr -d '[:space:]' | sed -e 's#^[a-zA-Z]*://##' -e 's#/*$##')
 echo "* Shop domain: [${PS_DOMAIN}]"
 PS_LANGUAGE="${PS_LANGUAGE:-en}"
