@@ -1,6 +1,5 @@
 name: Symfony Console
 on:
-  push:
   pull_request:
 
 permissions:

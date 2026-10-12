@@ -1,7 +1,9 @@
 name: PHP
 on:
   pull_request:
-  push:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -13,6 +15,7 @@ jobs:
     permissions:
       contents: read  # for actions/checkout to fetch code
     name: PHP CS Fixer
+    if: github.event_name == 'pull_request'
     runs-on: self-hosted
     steps:
       - name: Setup PHP
@@ -50,6 +53,7 @@ jobs:
   # Define which PHP versions need to be used
   workflow_matrix_generator:
     name: PHP matrix
+    if: github.event_name != 'pull_request'
     uses: ./.github/workflows/workflow-matrix-generator.yml
     with:
       matrix_type: PHP
@@ -57,6 +61,7 @@ jobs:
     permissions:
       contents: read  # for actions/checkout to fetch code
     name: PHP Static Analysis
+    if: github.event_name != 'pull_request'
     runs-on: self-hosted
     needs: workflow_matrix_generator
     strategy:
@@ -98,6 +103,7 @@ jobs:
     permissions:
       contents: read  # for actions/checkout to fetch code
     name: PHPUnit
+    if: github.event_name != 'pull_request'
     runs-on: self-hosted
     needs: workflow_matrix_generator
     strategy:
