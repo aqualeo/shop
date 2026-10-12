@@ -56,8 +56,14 @@ fi
 ln -sf "$DATA/parameters.php" "$APP/app/config/parameters.php"
 rm -rf "$APP/install-dev"
 
-# Serve the back office from a renamed folder (default /admin) instead of the installer's /admin-dev.
-ADMIN_DIR="${PS_FOLDER_ADMIN:-admin}"
+# PrestaShop refuses to open the back office from /admin or /admin-dev, so use PS_FOLDER_ADMIN or a random name kept in $DATA.
+ADMIN_DIR="${PS_FOLDER_ADMIN:-}"
+case "$ADMIN_DIR" in
+  ""|admin|admin-dev)
+    [ -s "$DATA/admin_folder" ] || echo "admin$(head -c 12 /dev/urandom | od -An -tx1 | tr -d ' \n')" > "$DATA/admin_folder"
+    ADMIN_DIR=$(cat "$DATA/admin_folder")
+    ;;
+esac
 if [ -d "$APP/admin-dev" ] && [ "$ADMIN_DIR" != "admin-dev" ]; then
   mv "$APP/admin-dev" "$APP/$ADMIN_DIR"
 fi
