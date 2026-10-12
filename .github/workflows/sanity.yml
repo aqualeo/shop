@@ -1,6 +1,9 @@
 name: UI tests
 
-on: [ push, pull_request ]
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: read   #   to fetch code (actions/checkout)

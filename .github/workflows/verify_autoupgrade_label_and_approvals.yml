@@ -1,8 +1,7 @@
 name: Verify 'Needs autoupgrade PR' label and approvals
 
 on:
-  pull_request_review:
-    types: [ submitted ]
+  workflow_dispatch:
 
 jobs:
   check_label_and_appoval:

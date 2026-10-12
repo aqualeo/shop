@@ -1,6 +1,5 @@
 name: Twig
 on:
-  push:
   pull_request:
 
 permissions:
