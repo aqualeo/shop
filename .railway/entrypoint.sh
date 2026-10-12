@@ -57,4 +57,17 @@ ln -sf "$DATA/parameters.php" "$APP/app/config/parameters.php"
 rm -rf "$APP/install-dev"
 chown -R www-data:www-data "$DATA" "$APP/var"
 
+if ! apache2ctl -t 2>/tmp/apache-test.log; then
+  echo "* Apache configuration test failed:"
+  cat /tmp/apache-test.log
+  echo "* Enabled MPM modules:"
+  ls -l /etc/apache2/mods-enabled | grep -i mpm || true
+  echo "* MPM LoadModule lines:"
+  grep -rn "LoadModule mpm" /etc/apache2 || true
+  echo "* apache2 -V:"
+  apache2 -V | grep -i mpm || true
+  sleep 600
+  exit 1
+fi
+
 exec apache2-foreground
